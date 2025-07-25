@@ -2,6 +2,8 @@
 
 Este proyecto utiliza técnicas de machine learning para predecir la fuga de clientes (churn) en un banco, empleando modelos clásicos y avanzados, así como técnicas para el manejo de datos desbalanceados.
 
+El trabajo se basa en la competencia de Kaggle: [Bank Customer Churn Prediction Challenge](https://www.kaggle.com/competitions/bank-customer-churn-prediction-challenge).
+
 ## Estructura del Proyecto
 
 - `train_test_models.ipynb`: Notebook principal donde se realiza la limpieza de datos, ingeniería de variables, entrenamiento, optimización de hiperparámetros (Optuna) y evaluación de múltiples modelos, incluyendo:
