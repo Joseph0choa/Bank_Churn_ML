@@ -53,6 +53,6 @@ Los resultados incluyen:
 
 ## Créditos
 
-- Autor: Anderson Joseph Ochoa Trujillo, Cristian Andres Villareal Orozco
+- Autor: Anderson Joseph Ochoa Trujillo, Cristian Andres Villareal Orozco, Juan Pablo Hoyos Sanchez
 
 ---
