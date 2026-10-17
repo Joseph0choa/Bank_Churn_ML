@@ -13,7 +13,6 @@ The project is developed using the Kaggle benchmark: [Bank Customer Churn Predic
 - **Imbalance Mitigation Matrix:** Evaluates baseline linear models, algorithmic cost-sensitive learners (`BalancedRandomForest`, `EasyEnsemble`, `RUSBoost`), synthetic oversamplers (`SMOTE`, `ADASYN`), gradient boosting architectures (`XGBoost`, `LightGBM`, `CatBoost`, `HistGradientBoosting`), and ensemble blends.
 - **Genetic AutoML Synthesis:** TPOT genetic programming pipeline search ($G=15, N=40$) discovering non-linear feature selectors and stacking ensembles.
 - **Model Explainability:** Tree SHAP feature attribution (global summary beeswarm and local waterfall plots) uncovering non-linear churn drivers without baseline truncation.
-- **Publication Figures:** High-resolution (300 DPI) publication-ready plots formatted for academic journals (clean axes, diagonal inset zooms, multi-panel confusion matrix composite).
 
 ---
 
