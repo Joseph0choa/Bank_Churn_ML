@@ -1,0 +1,16 @@
+Model,Strategy,CV_ROC_AUC,Test_ROC_AUC,Accuracy,Precision,Recall,Specificity,F1_Score,G_Mean,Kaggle_AUC
+Logistic Regression (Baseline),Linear Baseline,0.8863 ± 0.0081,0.8826,0.867,0.7383,0.5392,0.951,0.6232,0.7161,0.8871
+Logistic Regression + ADASYN,Adaptive Resampling (ADASYN),0.8844 ± 0.0088,0.8822,0.7973,0.502,0.835,0.7877,0.627,0.811,0.8854
+Random Forest,Standard Ensemble,0.9319 ± 0.0044,0.932,0.8913,0.8017,0.6209,0.9606,0.6998,0.7723,0.9389
+Extra Trees,Standard Ensemble,0.9319 ± 0.0028,0.9315,0.887,0.8027,0.5915,0.9627,0.6811,0.7546,0.9382
+Gradient Boosting + SMOTE,Synthetic Resampling (SMOTE),0.9335 ± 0.0040,0.9324,0.8943,0.7375,0.7484,0.9317,0.7429,0.835,0.9399
+XGBoost,Cost-Insensitive Booster,0.9348 ± 0.0053,0.934,0.8947,0.7857,0.665,0.9535,0.7204,0.7963,0.9416
+LightGBM,Histogram-Based Booster,0.9325 ± 0.0048,0.9332,0.9007,0.8043,0.6781,0.9577,0.7358,0.8059,0.9404
+LightGBM + ADASYN,Adaptive Resampling (ADASYN),0.9327 ± 0.0038,0.9323,0.8843,0.7017,0.7533,0.9179,0.7266,0.8315,0.9407
+HistGradientBoosting,Histogram Booster,0.9327 ± 0.0045,0.9326,0.8987,0.795,0.6781,0.9552,0.7319,0.8048,0.9413
+CatBoost,Categorical Booster,0.9355 ± 0.0048,0.9337,0.8967,0.7949,0.665,0.956,0.7242,0.7974,0.9405
+Balanced Random Forest,Algorithmic Cost-Sensitive,0.9317 ± 0.0037,0.9316,0.8693,0.6351,0.8448,0.8756,0.7251,0.8601,0.9365
+Easy Ensemble,Algorithmic Cost-Sensitive,0.9254 ± 0.0053,0.9241,0.854,0.6053,0.817,0.8635,0.6954,0.8399,0.9304
+RUSBoost,Algorithmic Cost-Sensitive,0.8959 ± 0.0059,0.8899,0.8303,0.5633,0.7484,0.8513,0.6428,0.7982,0.9082
+Clean Ensemble (Top 3 Blend),Multi-Model Probability Average,0.9363 ± 0.0045,0.9343,0.8983,0.7992,0.6699,0.9569,0.7289,0.8006,0.9413
+TPOT Pipeline (AutoML),Evolutionary Genetic Search,0.9363 ± 0.0039,0.9323,0.8953,0.7833,0.6732,0.9523,0.7241,0.8007,0.9406
