@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# CatBoost temporary logs
+catboost_info/
+
+# OS specific files
+.DS_Store
+Thumbs.db

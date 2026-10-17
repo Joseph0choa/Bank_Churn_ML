@@ -1,0 +1,331 @@
+{
+  "metadata": {
+    "project": "Bank Customer Churn Prediction",
+    "validation_protocol": "5-Fold Stratified Cross-Validation on Train (12,000 samples) + 20% Holdout Test (3,000 samples)",
+    "metric_optimized": "ROC-AUC",
+    "leak_free": true,
+    "description": "Comparative benchmarking of machine learning and AutoML models for bank customer churn prediction"
+  },
+  "top_models": {
+    "XGBoost": {
+      "rank_by_kaggle_auc": 1,
+      "kaggle_auc": 0.94158,
+      "cv_roc_auc": "0.9359 \u00b1 0.0053",
+      "test_roc_auc_local": 0.934,
+      "accuracy": 0.8947,
+      "precision": 0.7857,
+      "recall": 0.665,
+      "specificity": 0.9535,
+      "f1_score": 0.7204,
+      "g_mean": 0.7963,
+      "imbalance_strategy": "None (Standard Cost-Insensitive Booster)",
+      "search_space_optuna": {
+        "n_estimators": [
+          100,
+          400
+        ],
+        "learning_rate": [
+          0.01,
+          0.2
+        ],
+        "max_depth": [
+          3,
+          10
+        ],
+        "subsample": [
+          0.7,
+          1.0
+        ],
+        "colsample_bytree": [
+          0.7,
+          1.0
+        ],
+        "gamma": [
+          0.0,
+          5.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 250,
+        "learning_rate": 0.035,
+        "max_depth": 5,
+        "subsample": 0.85,
+        "colsample_bytree": 0.8,
+        "gamma": 1.0,
+        "eval_metric": "logloss",
+        "random_state": 42
+      }
+    },
+    "HistGradientBoosting": {
+      "rank_by_kaggle_auc": 2,
+      "kaggle_auc": 0.94086,
+      "cv_roc_auc": "0.9327 \u00b1 0.0045",
+      "test_roc_auc_local": 0.9326,
+      "accuracy": 0.8987,
+      "precision": 0.795,
+      "recall": 0.6781,
+      "specificity": 0.9552,
+      "f1_score": 0.7319,
+      "g_mean": 0.8048,
+      "imbalance_strategy": "None (Histogram Tree Boosting)",
+      "search_space_optuna": {
+        "max_iter": [
+          100,
+          400
+        ],
+        "learning_rate": [
+          0.01,
+          0.2
+        ],
+        "max_depth": [
+          3,
+          10
+        ],
+        "min_samples_leaf": [
+          10,
+          50
+        ]
+      },
+      "best_hyperparameters": {
+        "max_iter": 250,
+        "learning_rate": 0.04,
+        "max_depth": 6,
+        "min_samples_leaf": 20,
+        "random_state": 42
+      }
+    },
+    "Clean_Ensemble_Top3": {
+      "rank_by_kaggle_auc": 3,
+      "kaggle_auc": 0.94085,
+      "cv_roc_auc": "0.9363 \u00b1 0.0045",
+      "test_roc_auc_local": 0.9343,
+      "accuracy": 0.8983,
+      "precision": 0.7992,
+      "recall": 0.6699,
+      "specificity": 0.9569,
+      "f1_score": 0.7289,
+      "g_mean": 0.8006,
+      "imbalance_strategy": "Multi-Model Blend (Diverse Architecture Integration)",
+      "ensemble_weights": {
+        "CatBoost_Native": 0.5,
+        "XGBoost": 0.3,
+        "LightGBM": 0.2
+      }
+    },
+    "LightGBM_ADASYN": {
+      "rank_by_kaggle_auc": 4,
+      "kaggle_auc": 0.94072,
+      "cv_roc_auc": "0.9327 \u00b1 0.0038",
+      "test_roc_auc_local": 0.9323,
+      "accuracy": 0.8843,
+      "precision": 0.7017,
+      "recall": 0.7533,
+      "specificity": 0.9179,
+      "f1_score": 0.7266,
+      "g_mean": 0.8315,
+      "imbalance_strategy": "Resampling (ADASYN oversampling inside CV pipeline)",
+      "search_space_optuna": {
+        "n_estimators": [
+          100,
+          400
+        ],
+        "learning_rate": [
+          0.01,
+          0.2
+        ],
+        "max_depth": [
+          3,
+          10
+        ],
+        "min_child_samples": [
+          5,
+          30
+        ],
+        "subsample": [
+          0.7,
+          1.0
+        ],
+        "colsample_bytree": [
+          0.7,
+          1.0
+        ],
+        "reg_alpha": [
+          0.0,
+          2.0
+        ],
+        "reg_lambda": [
+          0.0,
+          2.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 200,
+        "learning_rate": 0.045,
+        "max_depth": 6,
+        "min_child_samples": 17,
+        "subsample": 0.9,
+        "colsample_bytree": 0.75,
+        "reg_alpha": 0.6,
+        "reg_lambda": 0.8,
+        "random_state": 42,
+        "verbose": -1
+      }
+    },
+    "LightGBM_Clean": {
+      "rank_by_kaggle_auc": 5,
+      "kaggle_auc": 0.94028,
+      "cv_roc_auc": "0.9339 \u00b1 0.0048",
+      "test_roc_auc_local": 0.9332,
+      "accuracy": 0.9007,
+      "precision": 0.8043,
+      "recall": 0.6781,
+      "specificity": 0.9577,
+      "f1_score": 0.7358,
+      "g_mean": 0.8059,
+      "imbalance_strategy": "None (Leaf-wise Gradient Booster)",
+      "search_space_optuna": {
+        "n_estimators": [
+          100,
+          400
+        ],
+        "learning_rate": [
+          0.01,
+          0.2
+        ],
+        "max_depth": [
+          3,
+          10
+        ],
+        "subsample": [
+          0.7,
+          1.0
+        ],
+        "colsample_bytree": [
+          0.7,
+          1.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 250,
+        "learning_rate": 0.035,
+        "max_depth": 5,
+        "subsample": 0.85,
+        "colsample_bytree": 0.8,
+        "random_state": 42,
+        "verbose": -1
+      }
+    },
+    "CatBoost_Native": {
+      "rank_by_kaggle_auc": 6,
+      "kaggle_auc": 0.94005,
+      "cv_roc_auc": "0.9361 \u00b1 0.0048",
+      "test_roc_auc_local": 0.9337,
+      "accuracy": 0.8967,
+      "precision": 0.7949,
+      "recall": 0.665,
+      "specificity": 0.956,
+      "f1_score": 0.7242,
+      "g_mean": 0.7974,
+      "imbalance_strategy": "Native Categorical Handling (Ordered Target Statistics)",
+      "categorical_features": [
+        "Geography",
+        "Gender",
+        "NumOfProducts",
+        "HasCrCard",
+        "IsActiveMember"
+      ],
+      "search_space_optuna": {
+        "iterations": [
+          200,
+          1000
+        ],
+        "learning_rate": [
+          0.01,
+          0.15
+        ],
+        "depth": [
+          4,
+          8
+        ],
+        "l2_leaf_reg": [
+          1,
+          10
+        ]
+      },
+      "best_hyperparameters": {
+        "iterations": 600,
+        "learning_rate": 0.035,
+        "depth": 6,
+        "l2_leaf_reg": 3.0,
+        "eval_metric": "AUC",
+        "random_seed": 42,
+        "verbose": 0
+      }
+    },
+    "Balanced_Random_Forest": {
+      "rank_by_recall_and_gmean": 1,
+      "kaggle_auc": 0.93865,
+      "cv_roc_auc": "0.9317 \u00b1 0.0037",
+      "test_roc_auc_local": 0.9316,
+      "accuracy": 0.8693,
+      "precision": 0.6351,
+      "recall": 0.8448,
+      "specificity": 0.8756,
+      "f1_score": 0.7251,
+      "g_mean": 0.8601,
+      "imbalance_strategy": "Algorithmic Sub-tree Balancing (imblearn)",
+      "search_space_optuna": {
+        "n_estimators": [
+          50,
+          300
+        ],
+        "max_depth": [
+          3,
+          20
+        ],
+        "min_samples_split": [
+          2,
+          20
+        ],
+        "min_samples_leaf": [
+          1,
+          10
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 200,
+        "max_depth": 10,
+        "min_samples_split": 6,
+        "random_state": 42,
+        "n_jobs": -1
+      }
+    },
+    "TPOT_AutoML_Pipeline": {
+      "rank_by_kaggle_auc": 5,
+      "kaggle_auc": 0.9406,
+      "cv_roc_auc": "0.9363 (internal Stratified 5-Fold CV on Train)",
+      "test_roc_auc_local": 0.9323,
+      "accuracy": 0.8953,
+      "precision": 0.7833,
+      "recall": 0.6732,
+      "specificity": 0.9523,
+      "f1_score": 0.7241,
+      "g_mean": 0.8007,
+      "imbalance_strategy": "Evolutionary Architecture Search (DEAP / TPOT)",
+      "search_parameters": {
+        "generations": 15,
+        "population_size": 40,
+        "mutation_rate": 0.9,
+        "crossover_rate": 0.1,
+        "scoring": "roc_auc",
+        "cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+        "random_state": 42
+      },
+      "best_pipeline_structure": {
+        "step_1": "StackingEstimator(estimator=BernoulliNB(alpha=1.0, fit_prior=True))",
+        "step_2": "SelectPercentile(score_func=f_classif, percentile=64)",
+        "step_3": "GradientBoostingClassifier(learning_rate=0.1, max_depth=4, max_features=0.5, min_samples_leaf=19, min_samples_split=10, n_estimators=100, subsample=0.85, random_state=42)"
+      }
+    }
+  }
+}

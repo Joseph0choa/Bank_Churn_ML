@@ -1,3 +1,4 @@
+
 # Bank Churn Prediction with Machine Learning
 
 Este proyecto utiliza técnicas de machine learning para predecir la fuga de clientes (churn) en un banco, empleando modelos clásicos y avanzados, así como técnicas para el manejo de datos desbalanceados.
@@ -6,33 +7,30 @@ El trabajo se basa en la competencia de Kaggle: [Bank Customer Churn Prediction 
 
 ## Estructura del Proyecto
 
-- `train_test_models.ipynb`: Notebook principal donde se realiza la limpieza de datos, ingeniería de variables, entrenamiento, optimización de hiperparámetros (Optuna) y evaluación de múltiples modelos, incluyendo:
-  - Modelos clásicos: RandomForest, GradientBoosting, ExtraTrees, LogisticRegression, XGBoost, LightGBM
-  - Modelos para datos desbalanceados (imblearn): EasyEnsembleClassifier, RUSBoostClassifier, BalancedBaggingClassifier, BalancedRandomForestClassifier
-  - Técnicas de oversampling: SMOTE, ADASYN
-  - Curvas ROC y métricas de desempeño
+- `Notebooks/`:
+  - `train_test_models.ipynb`: Notebook principal con protocolo 100% libre de fugas de datos (Data Leakage), validación cruzada estratificada de 5 particiones (5-Fold Stratified CV), evaluación comparativa de 13 modelos y ensamble limpio, curvas ROC, matrices de confusión y explicabilidad SHAP.
+  - `EDA.ipynb`: Análisis exploratorio de datos, distribuciones y correlaciones.
+  - `tpot_test.ipynb`: Búsqueda automática con TPOT basada en algoritmos genéticos.
 
-- `tpot_test.ipynb`: Notebook donde se explora la optimización automática de modelos usando TPOT, una herramienta AutoML basada en algoritmos genéticos.
+- `Datasets/`:
+  - `train.csv`, `test.csv`: Datasets originales.
+  - `train_processed.csv`: Dataset procesado sin identificadores, listo para modelado.
 
-- `requirements.txt`: Lista de dependencias necesarias para reproducir los notebooks.
+- `Figs/`:
+  - `ROC_Curvas.png`: Curvas ROC comparativas sobre el conjunto de prueba aislado.
+  - `shap_summary.png`: Gráfico Beeswarm de explicabilidad global con SHAP.
+  - `cm/confusion_matrices_comparison.png`: Matrices de confusión normalizadas de los modelos clave.
 
-- `train.csv`, `test.csv`: Datasets originales para entrenamiento y prueba.
-- `train_processed.csv`, `train_cleaned.csv`, etc.: Versiones procesadas de los datos.
+- `Submissions/`:
+  - Contiene las 14 submissions independientes numeradas del `01` al `14`, generadas mediante 5-Fold Bagging sobre el 100% de los datos de entrenamiento para evaluar en Kaggle.
 
-## Requisitos
+- `Review/`:
+  - Manuscrito y documentación de referencia.
 
-- Python 3.8+
-- Ver dependencias en `requirements.txt`
+- `archive/`:
+  - Respaldo de artefactos, figuras y submissions anteriores fuera del flujo de trabajo activo.
 
-## Ejecución
-
-1. Instala las dependencias:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Abre y ejecuta los notebooks en el orden sugerido:
-   - `train_test_models.ipynb`
-   - `tpot_test.ipynb`
+- `requirements.txt`: Lista de dependencias del entorno.
 
 ## Descripción General
 
@@ -53,6 +51,8 @@ Los resultados incluyen:
 
 ## Créditos
 
-- Autor: Anderson Joseph Ochoa Trujillo, Cristian Andres Villareal Orozco, Juan Pablo Hoyos Sanchez
+- Autores: Anderson Joseph Ochoa Trujillo, Cristian Andres Villareal Orozco, Juan Pablo Hoyos Sanchez
 
 ---
+
+
