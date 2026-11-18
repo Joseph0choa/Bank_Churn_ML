@@ -22,3 +22,6 @@ archive/
 # Confidential reviewer letter
 PRAI Letter Reviewers.pdf*
 *:Zone.Identifier
+
+# Unpublished manuscript
+Manuscript*.pdf
