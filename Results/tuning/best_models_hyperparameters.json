@@ -6,7 +6,7 @@
     "benchmark": "10 x repeated stratified 5-fold CV on the training partition",
     "ranking_criterion": "Kaggle AUC",
     "software": {
-      "python": "3.11.16",
+      "python": "3.11.17",
       "numpy": "2.0.2",
       "pandas": "2.2.3",
       "scipy": "1.17.1",

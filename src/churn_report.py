@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 from scipy import stats
 from sklearn.metrics import confusion_matrix, roc_curve
 
@@ -58,43 +57,79 @@ def _clean(ax):
         ax.spines[s].set_visible(False)
 
 
-def roc_figure(names, y_test, test_scores, holdout, title, path, zoom=((0.05, 0.20), (0.70, 0.90))):
-    fig, ax = plt.subplots(figsize=(9, 7.5))
-    pal = sns.color_palette("tab10" if len(names) <= 10 else "tab20", len(names))
-    axins = inset_axes(ax, width="45%", height="45%", loc="center right", borderpad=2)
-    for c, name in zip(pal, names):
+ROC_COLORS = ["#d62728", "#1f77b4", "#009e73", "#e7298a", "#5e3c99", "#0b1f4b", "#66bd63", "#e69f00", "#56b4e9"]
+SHORT_NAMES = {"Soft-Voting Ensemble (Top 3)": "Ensemble (Top 3)", "Gradient Boosting + SMOTE": "GB + SMOTE",
+               "HistGradientBoosting": "HistGB", "TPOT Pipeline": "TPOT", "Logistic Regression (Baseline)": "Logistic Regression",
+               "Logistic Regression + ADASYN": "LR + ADASYN", "Balanced Random Forest": "Balanced RF"}
+ROC_STYLES = ["-", (0, (5, 2)), "-.", (0, (1, 2)), (0, (6, 3, 1, 3)), (0, (8, 2, 2, 2)), (0, (1, 1)),
+              (0, (3, 1, 1, 1)), (0, (4, 4))]
+
+
+def roc_figure(names, y_test, test_scores, path, colors=None):
+    """ROC curves in the manuscript style: zoomed inset of FPR [0, 0.2] x TPR [0.8, 1.0]."""
+    from sklearn.metrics import roc_auc_score
+    names = sorted(names, key=lambda n: roc_auc_score(y_test, test_scores[n]), reverse=True)
+    colors = colors or ROC_COLORS
+    plt.rcParams.update({"font.family": "DejaVu Sans"})
+    fig, ax = plt.subplots(figsize=(10, 8.5))
+    axins = ax.inset_axes([0.30, 0.42, 0.38, 0.32])
+    for i, name in enumerate(names):
         fpr, tpr, _ = roc_curve(y_test, test_scores[name])
-        ax.plot(fpr, tpr, color=c, lw=2, label=f"{name} (AUC = {holdout[name]['Test ROC-AUC']:.4f})")
-        axins.plot(fpr, tpr, color=c, lw=2)
-    ax.plot([0, 1], [0, 1], ":", color="gray")
-    axins.set_xlim(*zoom[0]); axins.set_ylim(*zoom[1]); axins.grid(alpha=0.3); axins.tick_params(labelsize=8)
-    mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="0.5")
-    ax.set_xlabel("False positive rate (1 − Specificity)")
-    ax.set_ylabel("True positive rate (Recall)")
-    ax.set_title(title, fontweight="bold")
-    ax.legend(loc="lower right", fontsize=8.5)
-    _clean(ax)
-    plt.tight_layout(); plt.savefig(path, bbox_inches="tight"); plt.show()
+        auc_v = roc_auc_score(y_test, test_scores[name])
+        kw = dict(color=colors[i % len(colors)], ls=ROC_STYLES[i % len(ROC_STYLES)],
+                  lw=3.5 if i == 0 else 2.2, zorder=10 - i)
+        label = SHORT_NAMES.get(name, name)
+        ax.plot(fpr, tpr, label=f"{label} (AUC = {auc_v:.3f})", **kw)
+        axins.plot(fpr, tpr, **kw)
+    for a_ in (ax, axins):
+        a_.plot([0, 1], [0, 1], ls=":", color="#3a3ab0", lw=1.5, zorder=0)
+        a_.grid(True, color="#d9d9d9", lw=0.8)
+        a_.set_axisbelow(True)
+    ax.set_xlim(-0.005, 1.0); ax.set_ylim(0.0, 1.01)
+    ax.set_xticks(np.arange(0, 1.01, 0.2)); ax.set_yticks(np.arange(0, 1.01, 0.2))
+    ax.set_xlabel("False Positive Rate", fontsize=18); ax.set_ylabel("True Positive Rate", fontsize=18)
+    ax.tick_params(labelsize=16)
+    axins.set_xlim(0.0, 0.2); axins.set_ylim(0.8, 1.0)
+    axins.set_xticks([0.0, 0.1, 0.2]); axins.set_yticks([0.8, 0.9, 1.0])
+    axins.tick_params(labelsize=12)
+    axins.set_facecolor("white")
+    # zoom rectangle with connectors from its lower-left and upper-right corners
+    rect, connectors = ax.indicate_inset_zoom(axins, edgecolor="#8c8c8c", alpha=1.0, lw=1.2)
+    for c, visible in zip(connectors, [True, False, False, True]):  # lower-left, upper-left, lower-right, upper-right
+        c.set_visible(visible)
+        c.set_color("#8c8c8c"); c.set_linewidth(1.2)
+    ax.legend(loc="lower right", fontsize=14, frameon=True, framealpha=0.95, edgecolor="#d9d9d9",
+              handlelength=2.6, borderpad=0.6)
+    plt.tight_layout(); plt.savefig(path, dpi=300, bbox_inches="tight"); plt.show()
 
 
 def _cm_heatmap(ax, cm, title):
-    annot = np.array([[f"{cm[r, c]}\n({cm[r, c] / cm[r].sum():.1%})" for c in range(2)] for r in range(2)])
-    sns.heatmap(cm / cm.sum(axis=1, keepdims=True), annot=annot, fmt="", cmap="Blues", cbar=False, vmin=0, vmax=1,
-                ax=ax, xticklabels=["Retained", "Churn"], yticklabels=["Retained", "Churn"], annot_kws={"fontsize": 12})
-    ax.set_title(title, fontsize=11, fontweight="bold"); ax.set_xlabel("Predicted"); ax.set_ylabel("Actual")
+    """Confusion matrix in the manuscript style: counts, Blues colour scale with colour bar."""
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=True, ax=ax, annot_kws={"fontsize": 14},
+                xticklabels=["No Churn", "Churn"], yticklabels=["No Churn", "Churn"])
+    ax.set_title(title, fontsize=22)
+    ax.set_xlabel("Predicted Label", fontsize=13)
+    ax.set_ylabel("True Label", fontsize=13)
+    ax.tick_params(labelsize=12)
 
 
 def confusion_figures(names, y_test, test_scores, thresholds, out_dir):
+    """One file per model plus a 3 + 2 panel (top row 3, bottom row 2 centred)."""
     for old in out_dir.glob("*.png"):
         old.unlink()
-    fig, axes = plt.subplots(1, len(names), figsize=(4.8 * len(names), 4.8))
-    for i, (name, ax) in enumerate(zip(names, axes), start=1):
+    fig = plt.figure(figsize=(21, 12))
+    gs = fig.add_gridspec(2, 6)
+    slots = [gs[0, 0:2], gs[0, 2:4], gs[0, 4:6], gs[1, 1:3], gs[1, 3:5]]
+    for i, (name, slot) in enumerate(zip(names, slots), start=1):
         cm = confusion_matrix(y_test, (test_scores[name] >= thresholds[name]["default"]).astype(int))
-        _cm_heatmap(ax, cm, name)
-        f1, ax1 = plt.subplots(figsize=(4.8, 4.2))
-        _cm_heatmap(ax1, cm, name)
-        f1.tight_layout(); f1.savefig(out_dir / f"{i:02d}_cm_{slugify(name)}.png", bbox_inches="tight"); plt.close(f1)
-    fig.tight_layout(); fig.savefig(out_dir / "confusion_matrices_top5_panel.png", bbox_inches="tight"); plt.show()
+        label = SHORT_NAMES.get(name, name)
+        _cm_heatmap(fig.add_subplot(slot), cm, label)
+        f1, ax1 = plt.subplots(figsize=(7, 5.8))
+        _cm_heatmap(ax1, cm, label)
+        f1.tight_layout(); f1.savefig(out_dir / f"{i:02d}_cm_{slugify(name)}.png", dpi=300, bbox_inches="tight")
+        plt.close(f1)
+    fig.tight_layout(); fig.savefig(out_dir / "confusion_matrices_top5_panel.png", dpi=300, bbox_inches="tight")
+    plt.show()
 
 
 def friedman_figure(avg_rank, cd, path):
