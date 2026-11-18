@@ -11,7 +11,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 from scipy import stats
 from sklearn.metrics import confusion_matrix, roc_curve
 
-from churn_utils import (FIG_DIR, N_REPEATS, N_SPLITS, RANDOM_STATE, TEST_SIZE, bootstrap_auc_ci,
+from churn_utils import (BENCH_DIR, TUNING_DIR, N_REPEATS, N_SPLITS, RANDOM_STATE, TEST_SIZE, bootstrap_auc_ci,
                          classification_metrics, corrected_resampled_ttest, delong_test,
                          holm_correction, save_json, slugify)
 
@@ -159,10 +159,10 @@ def _bold_best(values):
     return [f"**{v}**" if (pd.notna(x) and x == best) else str(v) for v, x in zip(values, vals)]
 
 
-def export_results(final, root, *, rank_by, ensemble_members, tests_vs_best, tests_vs_baseline, best_model,
+def export_results(final, *, rank_by, ensemble_members, tests_vs_best, tests_vs_baseline, best_model,
                    fried, cd, n_models, n_folds, n_train, n_test, test_rate, strategy, optuna_results,
                    search_space_doc, submission_files, tpot_summary, ensemble_name, versions):
-    """Write all_models_benchmark_metrics.csv, all_models_table.md (Markdown + LaTeX) and best_models_hyperparameters.json."""
+    """Write Results/benchmark/all_models_benchmark_metrics.csv, all_models_table.md and Results/tuning/best_models_hyperparameters.json."""
     export_cols = ["Rank", "Strategy", "CV ROC-AUC", "CV G-Mean", "Test ROC-AUC", "Test ROC-AUC 95% CI", "Test PR-AUC",
                    "Accuracy", "Precision", "Recall", "Specificity", "F1-Score", "G-Mean", "Kaggle AUC", "Kaggle Private AUC"]
     export = final[export_cols].copy()
@@ -170,7 +170,7 @@ def export_results(final, root, *, rank_by, ensemble_members, tests_vs_best, tes
                 "Kaggle AUC", "Kaggle Private AUC"]
     for c in num_cols:
         export[c] = export[c].astype(float).round(5 if c.startswith("Kaggle") else 4)
-    export.to_csv(root / "all_models_benchmark_metrics.csv")
+    export.to_csv(BENCH_DIR / "all_models_benchmark_metrics.csv")
 
     md_cols = ["Strategy", "CV ROC-AUC", "CV G-Mean", "Test ROC-AUC", "Test ROC-AUC 95% CI", "Accuracy", "Precision",
                "Recall", "Specificity", "F1-Score", "G-Mean", "Kaggle AUC", "Kaggle Private AUC"]
@@ -203,38 +203,23 @@ def export_results(final, root, *, rank_by, ensemble_members, tests_vs_best, tes
 
     not_diff = ", ".join(tests_vs_best.index[~tests_vs_best["Significant"]]) or "none"
     better = ", ".join(tests_vs_baseline.index[tests_vs_baseline["Significant"] & (tests_vs_baseline["Mean ΔAUC (CV)"] > 0)]) or "none"
-    text = f"""# Comparative Performance Benchmark Across All Models
+    text = f"""# Benchmark results
 
-*Generated automatically by `Notebooks/train_test_models.ipynb` — do not edit by hand.*
-
-Protocol: tuned hyperparameters (Optuna, 5-fold CV on the training partition); CV columns are mean ± std over
-{N_REPEATS} × repeated stratified {N_SPLITS}-fold CV ({n_folds} paired folds) on the training partition (N = {n_train:,});
-test columns are computed once on the isolated holdout partition (N = {n_test:,}, {test_rate*100:.1f}% churners)
-at the default decision threshold. Kaggle columns: public / private leaderboard AUC (models refitted on all labelled data).
-Ranking criterion: **{rank_by}**. Ensemble members: {", ".join(ensemble_members)}.
-
-## 1. Summary table
+CV: 10×5 repeated CV on train (N = {n_train:,}). Test: holdout (N = {n_test:,}), threshold 0.5. Ranked by {rank_by}.
 
 {header}
 {sep}
 {chr(10).join(rows)}
 
-## 2. Statistical comparison (ROC-AUC)
-
-* Friedman test over {n_models} models and {n_folds} folds: χ² = {fried.statistic:.2f}, p = {fried.pvalue:.2e};
-  Nemenyi critical difference = {cd:.3f} (average ranks in `Figs/friedman_nemenyi_ranks.png`).
-* Models **not** significantly different from the best model by CV ({best_model}) under the corrected resampled t-test (Holm, 5%):
-  {not_diff}.
-* Models significantly better than the logistic-regression baseline (corrected t-test, Holm, 5%): {better}.
-* Full results: `Results/statistical_tests.csv`.
-
-## 3. LaTeX table
+- Friedman χ² = {fried.statistic:.1f}, p = {fried.pvalue:.1e}; Nemenyi CD = {cd:.2f}.
+- Not significantly different from {best_model} (corrected t-test, Holm 5%): {not_diff}.
+- Significantly better than the logistic-regression baseline: {better}.
 
 ```latex
 {chr(10).join(lx)}
 ```
 """
-    (root / "all_models_table.md").write_text(text)
+    (BENCH_DIR / "all_models_table.md").write_text(text)
 
     hyper = {"metadata": {
         "generated_by": "Notebooks/train_test_models.ipynb",
@@ -264,4 +249,4 @@ Ranking criterion: **{rank_by}**. Ensemble members: {", ".join(ensemble_members)
         else:
             e.update({"best_hyperparameters": "scikit-learn defaults (max_iter=5000)"})
         hyper["models"][name] = e
-    save_json(hyper, root / "best_models_hyperparameters.json")
+    save_json(hyper, TUNING_DIR / "best_models_hyperparameters.json")

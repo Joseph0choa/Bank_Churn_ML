@@ -23,9 +23,19 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 # --------------------------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "Datasets"
-FIG_DIR = PROJECT_ROOT / "Figs"
+SUBMISSION_DIR = PROJECT_ROOT / "Submissions"     # not tracked in git
+
 RESULTS_DIR = PROJECT_ROOT / "Results"
-SUBMISSION_DIR = PROJECT_ROOT / "Submissions"
+BENCH_DIR = RESULTS_DIR / "benchmark"              # final tables, statistical tests, per-fold scores
+TUNING_DIR = RESULTS_DIR / "tuning"                # Optuna / TPOT outputs and hyperparameters
+ABLATION_DIR = RESULTS_DIR / "ablation"            # imbalance matrix and ablation studies
+
+FIG_DIR = PROJECT_ROOT / "Figs"
+FIG_EDA = FIG_DIR / "eda"
+FIG_BENCH = FIG_DIR / "benchmark"
+FIG_CM = FIG_BENCH / "confusion_matrices"
+FIG_SHAP = FIG_DIR / "shap"
+FIG_ABLATION = FIG_DIR / "ablation"
 
 RANDOM_STATE = 42
 TEST_SIZE = 0.20
@@ -40,7 +50,7 @@ NUMERICAL_COLS = ["CreditScore", "Age", "Tenure", "Balance", "NumOfProducts",
 FEATURES = ["CreditScore", "Geography", "Gender", "Age", "Tenure", "Balance",
             "NumOfProducts", "HasCrCard", "IsActiveMember", "EstimatedSalary"]
 
-for _d in (FIG_DIR, FIG_DIR / "cm", FIG_DIR / "eda", RESULTS_DIR, SUBMISSION_DIR):
+for _d in (SUBMISSION_DIR, BENCH_DIR, TUNING_DIR, ABLATION_DIR, FIG_EDA, FIG_CM, FIG_SHAP, FIG_ABLATION):
     _d.mkdir(parents=True, exist_ok=True)
 
 

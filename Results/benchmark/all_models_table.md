@@ -1,14 +1,6 @@
-# Comparative Performance Benchmark Across All Models
+# Benchmark results
 
-*Generated automatically by `Notebooks/train_test_models.ipynb` — do not edit by hand.*
-
-Protocol: tuned hyperparameters (Optuna, 5-fold CV on the training partition); CV columns are mean ± std over
-10 × repeated stratified 5-fold CV (50 paired folds) on the training partition (N = 12,000);
-test columns are computed once on the isolated holdout partition (N = 3,000, 20.4% churners)
-at the default decision threshold. Kaggle columns: public / private leaderboard AUC (models refitted on all labelled data).
-Ranking criterion: **Kaggle AUC**. Ensemble members: CatBoost, XGBoost, LightGBM.
-
-## 1. Summary table
+CV: 10×5 repeated CV on train (N = 12,000). Test: holdout (N = 3,000), threshold 0.5. Ranked by Kaggle AUC.
 
 | Rank | Model | Strategy | CV ROC-AUC | CV G-Mean | Test ROC-AUC | Test ROC-AUC 95% CI | Accuracy | Precision | Recall | Specificity | F1-Score | G-Mean | Kaggle AUC | Kaggle Private AUC |
 |:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -32,16 +24,9 @@ Ranking criterion: **Kaggle AUC**. Ensemble members: CatBoost, XGBoost, LightGBM
 | 18 | Logistic Regression (Baseline) | None | 0.8860 ± 0.0075 | 0.7261 ± 0.0135 | 0.8826 | [0.8663, 0.8988] | 0.8670 | 0.7383 | 0.5392 | 0.9510 | 0.6232 | 0.7161 | 0.89368 | 0.87772 |
 | 19 | Logistic Regression + ADASYN | Resampling (ADASYN) | 0.8860 ± 0.0078 | 0.8164 ± 0.0085 | 0.8829 | [0.8667, 0.8991] | 0.8243 | 0.5472 | 0.8056 | 0.8291 | 0.6517 | 0.8173 | 0.89286 | 0.87835 |
 
-## 2. Statistical comparison (ROC-AUC)
-
-* Friedman test over 19 models and 50 folds: χ² = 801.90, p = 1.25e-158;
-  Nemenyi critical difference = 3.958 (average ranks in `Figs/friedman_nemenyi_ranks.png`).
-* Models **not** significantly different from the best model by CV (Soft-Voting Ensemble (Top 3)) under the corrected resampled t-test (Holm, 5%):
-  CatBoost, XGBoost, LightGBM, HistGradientBoosting, LightGBM + ADASYN, TPOT Pipeline.
-* Models significantly better than the logistic-regression baseline (corrected t-test, Holm, 5%): Soft-Voting Ensemble (Top 3), CatBoost, XGBoost, LightGBM, HistGradientBoosting, LightGBM + ADASYN, TPOT Pipeline, Gradient Boosting + SMOTE, Extra Trees, Random Forest, RUSBoost, Balanced Random Forest, MLP, Balanced Bagging, Easy Ensemble, SVM (RBF), KNN.
-* Full results: `Results/statistical_tests.csv`.
-
-## 3. LaTeX table
+- Friedman χ² = 801.9, p = 1.3e-158; Nemenyi CD = 3.96.
+- Not significantly different from Soft-Voting Ensemble (Top 3) (corrected t-test, Holm 5%): CatBoost, XGBoost, LightGBM, HistGradientBoosting, LightGBM + ADASYN, TPOT Pipeline.
+- Significantly better than the logistic-regression baseline: Soft-Voting Ensemble (Top 3), CatBoost, XGBoost, LightGBM, HistGradientBoosting, LightGBM + ADASYN, TPOT Pipeline, Gradient Boosting + SMOTE, Extra Trees, Random Forest, RUSBoost, Balanced Random Forest, MLP, Balanced Bagging, Easy Ensemble, SVM (RBF), KNN.
 
 ```latex
 \begin{table*}[t]
