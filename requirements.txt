@@ -1,12 +1,17 @@
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-optuna
-xgboost
-lightgbm
-imblearn
-tpot
-catboost
-shap
+# Exact versions used to produce every result in this repository (Python 3.11.16).
+numpy==2.0.2
+pandas==2.2.3
+scipy==1.17.1
+scikit-learn==1.9.1
+imbalanced-learn==0.14.2
+optuna==5.0.0
+xgboost==3.2.0
+lightgbm==4.7.0
+catboost==1.2.10
+tpot==0.12.2          # TPOT 1.x has a different, incompatible API
+setuptools<81         # required by tpot 0.12 (pkg_resources)
+shap==0.51.0
+matplotlib==3.11.2
+seaborn==0.13.2
+joblib
+jupyter

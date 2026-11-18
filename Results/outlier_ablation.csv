@@ -1,0 +1,9 @@
+Learner,Outliers,CV ROC-AUC,CV G-Mean,p AUC vs keep (corr. t)
+Logistic Regression (Baseline),Keep outliers,0.8860 ± 0.0075,0.7261 ± 0.0135,
+Logistic Regression (Baseline),Remove |z|>3 in training folds,0.8875 ± 0.0072,0.7438 ± 0.0119,0.008939047236156862
+MLP,Keep outliers,0.9317 ± 0.0052,0.8078 ± 0.0166,
+MLP,Remove |z|>3 in training folds,0.9293 ± 0.0050,0.8028 ± 0.0155,0.0911617741889484
+XGBoost,Keep outliers,0.9366 ± 0.0052,0.8101 ± 0.0122,
+XGBoost,Remove |z|>3 in training folds,0.9358 ± 0.0051,0.8106 ± 0.0121,0.0011785441612729352
+LightGBM,Keep outliers,0.9365 ± 0.0053,0.8116 ± 0.0125,
+LightGBM,Remove |z|>3 in training folds,0.9356 ± 0.0053,0.8124 ± 0.0122,0.001418629814879903

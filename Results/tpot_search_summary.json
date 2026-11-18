@@ -1,0 +1,35 @@
+{
+  "tpot_version": "0.12.2",
+  "config": {
+    "generations": 15,
+    "population_size": 40,
+    "offspring_size": 40,
+    "mutation_rate": 0.9,
+    "crossover_rate": 0.1,
+    "scoring": "roc_auc",
+    "cv": "StratifiedKFold(5, shuffle, seed 42)",
+    "early_stop": null,
+    "max_time_mins": null,
+    "max_eval_time_mins": 5
+  },
+  "search_minutes": 13.934575363000233,
+  "pipelines_evaluated": 626,
+  "search_cv_roc_auc": 0.9361667113005474,
+  "refit_cv_roc_auc_mean": 0.9361667113005474,
+  "refit_cv_roc_auc_std": 0.005115732536710601,
+  "best_pipeline": "Pipeline(steps=[('selectpercentile', SelectPercentile(percentile=53)),\n                ('gradientboostingclassifier',\n                 GradientBoostingClassifier(max_depth=4,\n                                            max_features=0.35000000000000003,\n                                            min_samples_leaf=15,\n                                            min_samples_split=8,\n                                            random_state=42, subsample=0.5))])",
+  "holdout": {
+    "ROC-AUC": 0.9324115813271149,
+    "PR-AUC": 0.817312370968627,
+    "Accuracy": 0.8966666666666666,
+    "Precision": 0.8044354838709677,
+    "Recall": 0.6519607843137255,
+    "Specificity": 0.9593802345058626,
+    "F1-Score": 0.720216606498195,
+    "G-Mean": 0.790871854438839,
+    "TN": 2291,
+    "FP": 97,
+    "FN": 213,
+    "TP": 399
+  }
+}

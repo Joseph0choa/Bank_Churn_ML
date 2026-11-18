@@ -1,0 +1,30 @@
+{
+  "ensemble_members": [
+    "CatBoost",
+    "XGBoost",
+    "LightGBM"
+  ],
+  "best_model": "Soft-Voting Ensemble (Top 3)",
+  "ranked": [
+    "HistGradientBoosting",
+    "LightGBM + ADASYN",
+    "LightGBM",
+    "TPOT Pipeline",
+    "Soft-Voting Ensemble (Top 3)",
+    "Gradient Boosting + SMOTE",
+    "CatBoost",
+    "XGBoost",
+    "RUSBoost",
+    "Balanced Random Forest",
+    "Random Forest",
+    "Balanced Bagging",
+    "Extra Trees",
+    "MLP",
+    "Easy Ensemble",
+    "KNN",
+    "SVM (RBF)",
+    "Logistic Regression (Baseline)",
+    "Logistic Regression + ADASYN"
+  ],
+  "shap_model": "CatBoost"
+}

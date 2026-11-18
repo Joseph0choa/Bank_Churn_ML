@@ -1,330 +1,892 @@
 {
   "metadata": {
-    "project": "Bank Customer Churn Prediction",
-    "validation_protocol": "5-Fold Stratified Cross-Validation on Train (12,000 samples) + 20% Holdout Test (3,000 samples)",
-    "metric_optimized": "ROC-AUC",
-    "leak_free": true,
-    "description": "Comparative benchmarking of machine learning and AutoML models for bank customer churn prediction"
+    "generated_by": "Notebooks/train_test_models.ipynb",
+    "split": "stratified holdout 80/20, random_state=42",
+    "tuning": "Optuna TPESampler(seed=42), objective = mean ROC-AUC of stratified 5-fold CV on the training partition, no pruning",
+    "benchmark": "10 x repeated stratified 5-fold CV on the training partition",
+    "ranking_criterion": "Kaggle AUC",
+    "software": {
+      "python": "3.11.16",
+      "numpy": "2.0.2",
+      "pandas": "2.2.3",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.1",
+      "imblearn": "0.14.2",
+      "optuna": "5.0.0",
+      "xgboost": "3.2.0",
+      "lightgbm": "4.7.0",
+      "catboost": "1.2.10",
+      "tpot": "0.12.2",
+      "shap": "0.51.0"
+    }
   },
-  "top_models": {
-    "XGBoost": {
-      "rank_by_kaggle_auc": 1,
-      "kaggle_auc": 0.94158,
-      "cv_roc_auc": "0.9359 \u00b1 0.0053",
-      "test_roc_auc_local": 0.934,
-      "accuracy": 0.8947,
-      "precision": 0.7857,
-      "recall": 0.665,
-      "specificity": 0.9535,
-      "f1_score": 0.7204,
-      "g_mean": 0.7963,
-      "imbalance_strategy": "None (Standard Cost-Insensitive Booster)",
-      "search_space_optuna": {
-        "n_estimators": [
-          100,
-          400
-        ],
-        "learning_rate": [
-          0.01,
-          0.2
-        ],
-        "max_depth": [
-          3,
-          10
-        ],
-        "subsample": [
-          0.7,
-          1.0
-        ],
-        "colsample_bytree": [
-          0.7,
-          1.0
-        ],
-        "gamma": [
-          0.0,
-          5.0
-        ]
-      },
-      "best_hyperparameters": {
-        "n_estimators": 250,
-        "learning_rate": 0.035,
-        "max_depth": 5,
-        "subsample": 0.85,
-        "colsample_bytree": 0.8,
-        "gamma": 1.0,
-        "eval_metric": "logloss",
-        "random_state": 42
-      }
-    },
+  "models": {
     "HistGradientBoosting": {
-      "rank_by_kaggle_auc": 2,
-      "kaggle_auc": 0.94086,
-      "cv_roc_auc": "0.9327 \u00b1 0.0045",
-      "test_roc_auc_local": 0.9326,
-      "accuracy": 0.8987,
-      "precision": 0.795,
-      "recall": 0.6781,
-      "specificity": 0.9552,
-      "f1_score": 0.7319,
-      "g_mean": 0.8048,
-      "imbalance_strategy": "None (Histogram Tree Boosting)",
-      "search_space_optuna": {
-        "max_iter": [
-          100,
-          400
+      "rank": 1,
+      "strategy": "None",
+      "cv_roc_auc": "0.9362 \u00b1 0.0052",
+      "cv_g_mean": "0.8126 \u00b1 0.0114",
+      "test_roc_auc": 0.9341,
+      "test_roc_auc_95ci": "[0.9233, 0.9445]",
+      "accuracy": 0.898,
+      "precision": 0.7977,
+      "recall": 0.6699,
+      "specificity": 0.9564,
+      "f1_score": 0.7282,
+      "g_mean": 0.8005,
+      "tuned_threshold_oof_gmean": 0.2126,
+      "kaggle_auc": 0.94192,
+      "kaggle_private_auc": 0.92656,
+      "submission_file": "Submissions/05_histgradientboosting.csv",
+      "optuna_trials": 50,
+      "optuna_best_tuning_cv_auc": 0.9363,
+      "search_space": {
+        "l2_regularization": [
+          0.000170707288303,
+          9.899227674850607
         ],
         "learning_rate": [
-          0.01,
-          0.2
+          0.0105519329158707,
+          0.1725471657328035
         ],
         "max_depth": [
-          3,
-          10
+          4.0,
+          12.0
+        ],
+        "max_iter": [
+          100.0,
+          700.0
+        ],
+        "max_leaf_nodes": [
+          8.0,
+          60.0
         ],
         "min_samples_leaf": [
-          10,
-          50
+          5.0,
+          97.0
         ]
       },
       "best_hyperparameters": {
-        "max_iter": 250,
-        "learning_rate": 0.04,
+        "max_iter": 550,
+        "learning_rate": 0.019948827251921403,
+        "max_leaf_nodes": 8,
         "max_depth": 6,
-        "min_samples_leaf": 20,
-        "random_state": 42
+        "min_samples_leaf": 76,
+        "l2_regularization": 7.649096832180748
       }
     },
-    "Clean_Ensemble_Top3": {
-      "rank_by_kaggle_auc": 3,
-      "kaggle_auc": 0.94085,
-      "cv_roc_auc": "0.9363 \u00b1 0.0045",
-      "test_roc_auc_local": 0.9343,
-      "accuracy": 0.8983,
-      "precision": 0.7992,
-      "recall": 0.6699,
-      "specificity": 0.9569,
-      "f1_score": 0.7289,
-      "g_mean": 0.8006,
-      "imbalance_strategy": "Multi-Model Blend (Diverse Architecture Integration)",
-      "ensemble_weights": {
-        "CatBoost_Native": 0.5,
-        "XGBoost": 0.3,
-        "LightGBM": 0.2
-      }
-    },
-    "LightGBM_ADASYN": {
-      "rank_by_kaggle_auc": 4,
-      "kaggle_auc": 0.94072,
-      "cv_roc_auc": "0.9327 \u00b1 0.0038",
-      "test_roc_auc_local": 0.9323,
-      "accuracy": 0.8843,
-      "precision": 0.7017,
-      "recall": 0.7533,
-      "specificity": 0.9179,
-      "f1_score": 0.7266,
-      "g_mean": 0.8315,
-      "imbalance_strategy": "Resampling (ADASYN oversampling inside CV pipeline)",
-      "search_space_optuna": {
-        "n_estimators": [
-          100,
-          400
+    "LightGBM + ADASYN": {
+      "rank": 2,
+      "strategy": "Resampling (ADASYN)",
+      "cv_roc_auc": "0.9359 \u00b1 0.0052",
+      "cv_g_mean": "0.8357 \u00b1 0.0107",
+      "test_roc_auc": 0.9349,
+      "test_roc_auc_95ci": "[0.9242, 0.9450]",
+      "accuracy": 0.894,
+      "precision": 0.7475,
+      "recall": 0.7255,
+      "specificity": 0.9372,
+      "f1_score": 0.7363,
+      "g_mean": 0.8246,
+      "tuned_threshold_oof_gmean": 0.2851,
+      "kaggle_auc": 0.94175,
+      "kaggle_private_auc": 0.92636,
+      "submission_file": "Submissions/06_lightgbm_adasyn.csv",
+      "optuna_trials": 50,
+      "optuna_best_tuning_cv_auc": 0.9361,
+      "search_space": {
+        "colsample_bytree": [
+          0.5050670944684933,
+          0.8856351733429728
         ],
         "learning_rate": [
-          0.01,
-          0.2
+          0.0102132801540904,
+          0.1827602783178572
         ],
         "max_depth": [
-          3,
-          10
+          3.0,
+          12.0
         ],
         "min_child_samples": [
-          5,
-          30
+          6.0,
+          90.0
         ],
-        "subsample": [
-          0.7,
-          1.0
+        "n_estimators": [
+          100.0,
+          800.0
         ],
-        "colsample_bytree": [
-          0.7,
-          1.0
-        ],
-        "reg_alpha": [
-          0.0,
-          2.0
+        "num_leaves": [
+          8.0,
+          108.0
         ],
         "reg_lambda": [
-          0.0,
-          2.0
-        ]
-      },
-      "best_hyperparameters": {
-        "n_estimators": 200,
-        "learning_rate": 0.045,
-        "max_depth": 6,
-        "min_child_samples": 17,
-        "subsample": 0.9,
-        "colsample_bytree": 0.75,
-        "reg_alpha": 0.6,
-        "reg_lambda": 0.8,
-        "random_state": 42,
-        "verbose": -1
-      }
-    },
-    "LightGBM_Clean": {
-      "rank_by_kaggle_auc": 5,
-      "kaggle_auc": 0.94028,
-      "cv_roc_auc": "0.9339 \u00b1 0.0048",
-      "test_roc_auc_local": 0.9332,
-      "accuracy": 0.9007,
-      "precision": 0.8043,
-      "recall": 0.6781,
-      "specificity": 0.9577,
-      "f1_score": 0.7358,
-      "g_mean": 0.8059,
-      "imbalance_strategy": "None (Leaf-wise Gradient Booster)",
-      "search_space_optuna": {
-        "n_estimators": [
-          100,
-          400
+          0.0019777828512462,
+          9.917124052347845
         ],
-        "learning_rate": [
-          0.01,
-          0.2
+        "sampler__n_neighbors": [
+          3.0,
+          15.0
         ],
-        "max_depth": [
-          3,
-          10
+        "sampler__sampling_strategy": [
+          0.5071290215269599,
+          0.9456570232474067
         ],
         "subsample": [
-          0.7,
-          1.0
-        ],
-        "colsample_bytree": [
-          0.7,
-          1.0
+          0.662397808134481,
+          0.9982398323608423
         ]
       },
       "best_hyperparameters": {
-        "n_estimators": 250,
-        "learning_rate": 0.035,
-        "max_depth": 5,
-        "subsample": 0.85,
-        "colsample_bytree": 0.8,
-        "random_state": 42,
-        "verbose": -1
+        "n_estimators": 500,
+        "learning_rate": 0.023998120848811585,
+        "num_leaves": 8,
+        "max_depth": 7,
+        "min_child_samples": 50,
+        "subsample": 0.970247366996316,
+        "colsample_bytree": 0.5884079475237932,
+        "reg_lambda": 7.565684630227229,
+        "sampler__sampling_strategy": 0.5318914225818794,
+        "sampler__n_neighbors": 13
       }
     },
-    "CatBoost_Native": {
-      "rank_by_kaggle_auc": 6,
-      "kaggle_auc": 0.94005,
-      "cv_roc_auc": "0.9361 \u00b1 0.0048",
-      "test_roc_auc_local": 0.9337,
-      "accuracy": 0.8967,
-      "precision": 0.7949,
-      "recall": 0.665,
-      "specificity": 0.956,
-      "f1_score": 0.7242,
-      "g_mean": 0.7974,
-      "imbalance_strategy": "Native Categorical Handling (Ordered Target Statistics)",
-      "categorical_features": [
-        "Geography",
-        "Gender",
-        "NumOfProducts",
-        "HasCrCard",
-        "IsActiveMember"
-      ],
-      "search_space_optuna": {
-        "iterations": [
-          200,
-          1000
+    "LightGBM": {
+      "rank": 3,
+      "strategy": "None",
+      "cv_roc_auc": "0.9365 \u00b1 0.0053",
+      "cv_g_mean": "0.8116 \u00b1 0.0125",
+      "test_roc_auc": 0.9342,
+      "test_roc_auc_95ci": "[0.9233, 0.9446]",
+      "accuracy": 0.8983,
+      "precision": 0.7981,
+      "recall": 0.6716,
+      "specificity": 0.9564,
+      "f1_score": 0.7294,
+      "g_mean": 0.8014,
+      "tuned_threshold_oof_gmean": 0.1714,
+      "kaggle_auc": 0.94165,
+      "kaggle_private_auc": 0.92701,
+      "submission_file": "Submissions/04_lightgbm.csv",
+      "optuna_trials": 50,
+      "optuna_best_tuning_cv_auc": 0.9366,
+      "search_space": {
+        "colsample_bytree": [
+          0.5012701393459056,
+          0.9143687545759648
         ],
         "learning_rate": [
-          0.01,
-          0.15
-        ],
-        "depth": [
-          4,
-          8
-        ],
-        "l2_leaf_reg": [
-          1,
-          10
-        ]
-      },
-      "best_hyperparameters": {
-        "iterations": 600,
-        "learning_rate": 0.035,
-        "depth": 6,
-        "l2_leaf_reg": 3.0,
-        "eval_metric": "AUC",
-        "random_seed": 42,
-        "verbose": 0
-      }
-    },
-    "Balanced_Random_Forest": {
-      "rank_by_recall_and_gmean": 1,
-      "kaggle_auc": 0.93865,
-      "cv_roc_auc": "0.9317 \u00b1 0.0037",
-      "test_roc_auc_local": 0.9316,
-      "accuracy": 0.8693,
-      "precision": 0.6351,
-      "recall": 0.8448,
-      "specificity": 0.8756,
-      "f1_score": 0.7251,
-      "g_mean": 0.8601,
-      "imbalance_strategy": "Algorithmic Sub-tree Balancing (imblearn)",
-      "search_space_optuna": {
-        "n_estimators": [
-          50,
-          300
+          0.0173980747112917,
+          0.1725471657328035
         ],
         "max_depth": [
-          3,
-          20
+          4.0,
+          12.0
         ],
-        "min_samples_split": [
-          2,
-          20
+        "min_child_samples": [
+          5.0,
+          83.0
         ],
-        "min_samples_leaf": [
-          1,
-          10
+        "n_estimators": [
+          100.0,
+          550.0
+        ],
+        "num_leaves": [
+          8.0,
+          118.0
+        ],
+        "reg_lambda": [
+          0.0029072088906598,
+          6.499697693292025
+        ],
+        "subsample": [
+          0.6185801650879991,
+          0.9947547746402068
         ]
       },
       "best_hyperparameters": {
         "n_estimators": 200,
-        "max_depth": 10,
-        "min_samples_split": 6,
-        "random_state": 42,
-        "n_jobs": -1
+        "learning_rate": 0.050634078694475906,
+        "num_leaves": 9,
+        "max_depth": 11,
+        "min_child_samples": 5,
+        "subsample": 0.9149482239418624,
+        "colsample_bytree": 0.5012701393459056,
+        "reg_lambda": 3.0104421598039703
       }
     },
-    "TPOT_AutoML_Pipeline": {
-      "rank_by_kaggle_auc": 5,
-      "kaggle_auc": 0.9406,
-      "cv_roc_auc": "0.9363 (internal Stratified 5-Fold CV on Train)",
-      "test_roc_auc_local": 0.9323,
-      "accuracy": 0.8953,
-      "precision": 0.7833,
-      "recall": 0.6732,
-      "specificity": 0.9523,
-      "f1_score": 0.7241,
-      "g_mean": 0.8007,
-      "imbalance_strategy": "Evolutionary Architecture Search (DEAP / TPOT)",
-      "search_parameters": {
+    "TPOT Pipeline": {
+      "rank": 4,
+      "strategy": "Genetic programming pipeline search",
+      "cv_roc_auc": "0.9359 \u00b1 0.0051",
+      "cv_g_mean": "0.8121 \u00b1 0.0124",
+      "test_roc_auc": 0.9324,
+      "test_roc_auc_95ci": "[0.9216, 0.9427]",
+      "accuracy": 0.8967,
+      "precision": 0.8044,
+      "recall": 0.652,
+      "specificity": 0.9594,
+      "f1_score": 0.7202,
+      "g_mean": 0.7909,
+      "tuned_threshold_oof_gmean": 0.2085,
+      "kaggle_auc": 0.94155,
+      "kaggle_private_auc": 0.92555,
+      "submission_file": "Submissions/07_tpot_pipeline.csv",
+      "pipeline": "Pipeline(steps=[('selectpercentile', SelectPercentile(percentile=53)),\n                ('gradientboostingclassifier',\n                 GradientBoostingClassifier(max_depth=4,\n                                            max_features=0.35000000000000003,\n                                            min_samples_leaf=15,\n                                            min_samples_split=8,\n                                            random_state=42, subsample=0.5))])",
+      "tpot_config": {
         "generations": 15,
         "population_size": 40,
+        "offspring_size": 40,
         "mutation_rate": 0.9,
         "crossover_rate": 0.1,
         "scoring": "roc_auc",
-        "cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
-        "random_state": 42
+        "cv": "StratifiedKFold(5, shuffle, seed 42)",
+        "early_stop": null,
+        "max_time_mins": null,
+        "max_eval_time_mins": 5
       },
-      "best_pipeline_structure": {
-        "step_1": "StackingEstimator(estimator=BernoulliNB(alpha=1.0, fit_prior=True))",
-        "step_2": "SelectPercentile(score_func=f_classif, percentile=64)",
-        "step_3": "GradientBoostingClassifier(learning_rate=0.1, max_depth=4, max_features=0.5, min_samples_leaf=19, min_samples_split=10, n_estimators=100, subsample=0.85, random_state=42)"
+      "tpot_search_cv_auc": 0.9362
+    },
+    "Soft-Voting Ensemble (Top 3)": {
+      "rank": 5,
+      "strategy": "Soft voting of CatBoost, XGBoost, LightGBM",
+      "cv_roc_auc": "0.9369 \u00b1 0.0052",
+      "cv_g_mean": "0.8102 \u00b1 0.0124",
+      "test_roc_auc": 0.935,
+      "test_roc_auc_95ci": "[0.9242, 0.9451]",
+      "accuracy": 0.899,
+      "precision": 0.8059,
+      "recall": 0.665,
+      "specificity": 0.959,
+      "f1_score": 0.7287,
+      "g_mean": 0.7986,
+      "tuned_threshold_oof_gmean": 0.2055,
+      "kaggle_auc": 0.94147,
+      "kaggle_private_auc": 0.92712,
+      "submission_file": "Submissions/01_soft_voting_ensemble_top_3.csv",
+      "members": [
+        "CatBoost",
+        "XGBoost",
+        "LightGBM"
+      ],
+      "weights": "equal (soft voting)"
+    },
+    "Gradient Boosting + SMOTE": {
+      "rank": 6,
+      "strategy": "Resampling (SMOTE)",
+      "cv_roc_auc": "0.9353 \u00b1 0.0054",
+      "cv_g_mean": "0.8317 \u00b1 0.0115",
+      "test_roc_auc": 0.9341,
+      "test_roc_auc_95ci": "[0.9232, 0.9444]",
+      "accuracy": 0.897,
+      "precision": 0.7581,
+      "recall": 0.7271,
+      "specificity": 0.9405,
+      "f1_score": 0.7423,
+      "g_mean": 0.827,
+      "tuned_threshold_oof_gmean": 0.2651,
+      "kaggle_auc": 0.9414,
+      "kaggle_private_auc": 0.92626,
+      "submission_file": "Submissions/08_gradient_boosting_smote.csv",
+      "optuna_trials": 30,
+      "optuna_best_tuning_cv_auc": 0.9358,
+      "search_space": {
+        "learning_rate": [
+          0.0114929993002214,
+          0.1825823043920023
+        ],
+        "max_depth": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "min_samples_leaf": [
+          1.0,
+          49.0
+        ],
+        "n_estimators": [
+          100.0,
+          400.0
+        ],
+        "sampler__k_neighbors": [
+          3.0,
+          15.0
+        ],
+        "sampler__sampling_strategy": [
+          0.5004188270387744,
+          0.9744427686266666
+        ],
+        "subsample": [
+          0.6000882925324783,
+          0.9757995766256756
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 150,
+        "learning_rate": 0.052939557230876004,
+        "max_depth": 4,
+        "subsample": 0.7028319115778962,
+        "min_samples_leaf": 33,
+        "sampler__sampling_strategy": 0.5567539483305729,
+        "sampler__k_neighbors": 15
+      }
+    },
+    "CatBoost": {
+      "rank": 7,
+      "strategy": "None",
+      "cv_roc_auc": "0.9368 \u00b1 0.0054",
+      "cv_g_mean": "0.8074 \u00b1 0.0128",
+      "test_roc_auc": 0.9344,
+      "test_roc_auc_95ci": "[0.9236, 0.9446]",
+      "accuracy": 0.899,
+      "precision": 0.8059,
+      "recall": 0.665,
+      "specificity": 0.959,
+      "f1_score": 0.7287,
+      "g_mean": 0.7986,
+      "tuned_threshold_oof_gmean": 0.1997,
+      "kaggle_auc": 0.94109,
+      "kaggle_private_auc": 0.9269,
+      "submission_file": "Submissions/02_catboost.csv",
+      "optuna_trials": 30,
+      "optuna_best_tuning_cv_auc": 0.9371,
+      "search_space": {
+        "depth": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "iterations": [
+          200.0,
+          700.0
+        ],
+        "l2_leaf_reg": [
+          1.6305687346221471,
+          9.859689636337144
+        ],
+        "learning_rate": [
+          0.0104302897101055,
+          0.1827602783178572
+        ],
+        "random_strength": [
+          0.1029965479668185,
+          4.370990468130501
+        ]
+      },
+      "best_hyperparameters": {
+        "iterations": 300,
+        "learning_rate": 0.04593870789276692,
+        "depth": 4,
+        "l2_leaf_reg": 9.859689636337144,
+        "random_strength": 0.2311180276395733
+      }
+    },
+    "XGBoost": {
+      "rank": 8,
+      "strategy": "None",
+      "cv_roc_auc": "0.9366 \u00b1 0.0052",
+      "cv_g_mean": "0.8101 \u00b1 0.0122",
+      "test_roc_auc": 0.9353,
+      "test_roc_auc_95ci": "[0.9247, 0.9454]",
+      "accuracy": 0.8987,
+      "precision": 0.8068,
+      "recall": 0.6618,
+      "specificity": 0.9594,
+      "f1_score": 0.7271,
+      "g_mean": 0.7968,
+      "tuned_threshold_oof_gmean": 0.1961,
+      "kaggle_auc": 0.94099,
+      "kaggle_private_auc": 0.92676,
+      "submission_file": "Submissions/03_xgboost.csv",
+      "optuna_trials": 50,
+      "optuna_best_tuning_cv_auc": 0.9369,
+      "search_space": {
+        "colsample_bytree": [
+          0.503971971982156,
+          0.9934434683002586
+        ],
+        "gamma": [
+          0.2904180608409973,
+          4.912484676356743
+        ],
+        "learning_rate": [
+          0.0173980747112917,
+          0.1725471657328035
+        ],
+        "max_depth": [
+          2.0,
+          8.0
+        ],
+        "min_child_weight": [
+          1.417706204246913,
+          18.27602783178573
+        ],
+        "n_estimators": [
+          100.0,
+          800.0
+        ],
+        "reg_lambda": [
+          0.0011799062523159,
+          4.869640941520899
+        ],
+        "subsample": [
+          0.6298202574719083,
+          0.9757995766256756
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 800,
+        "learning_rate": 0.039645070709360575,
+        "max_depth": 4,
+        "min_child_weight": 4.066591798049843,
+        "subsample": 0.7993251897264565,
+        "colsample_bytree": 0.6002187788392414,
+        "gamma": 4.741336080324503,
+        "reg_lambda": 0.04257379486098207
+      }
+    },
+    "RUSBoost": {
+      "rank": 9,
+      "strategy": "Algorithmic (random under-sampling)",
+      "cv_roc_auc": "0.9332 \u00b1 0.0057",
+      "cv_g_mean": "0.8571 \u00b1 0.0074",
+      "test_roc_auc": 0.9302,
+      "test_roc_auc_95ci": "[0.9189, 0.9409]",
+      "accuracy": 0.8617,
+      "precision": 0.6177,
+      "recall": 0.8448,
+      "specificity": 0.866,
+      "f1_score": 0.7136,
+      "g_mean": 0.8553,
+      "tuned_threshold_oof_gmean": 0.4839,
+      "kaggle_auc": 0.93941,
+      "kaggle_private_auc": 0.92454,
+      "submission_file": "Submissions/11_rusboost.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9336,
+      "search_space": {
+        "estimator__max_depth": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "learning_rate": [
+          0.0101207443389065,
+          0.7969454818643931
+        ],
+        "n_estimators": [
+          50.0,
+          400.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 300,
+        "learning_rate": 0.011014653485508992,
+        "estimator__max_depth": 5
+      }
+    },
+    "Balanced Random Forest": {
+      "rank": 10,
+      "strategy": "Algorithmic (balanced bootstrap)",
+      "cv_roc_auc": "0.9326 \u00b1 0.0060",
+      "cv_g_mean": "0.8547 \u00b1 0.0066",
+      "test_roc_auc": 0.9319,
+      "test_roc_auc_95ci": "[0.9208, 0.9426]",
+      "accuracy": 0.8627,
+      "precision": 0.6185,
+      "recall": 0.8529,
+      "specificity": 0.8652,
+      "f1_score": 0.717,
+      "g_mean": 0.859,
+      "tuned_threshold_oof_gmean": 0.457,
+      "kaggle_auc": 0.93937,
+      "kaggle_private_auc": 0.92431,
+      "submission_file": "Submissions/12_balanced_random_forest.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9326,
+      "search_space": {
+        "max_depth": [
+          4.0,
+          24.0
+        ],
+        "max_features": [
+          "0.5",
+          "0.8",
+          "log2",
+          "sqrt"
+        ],
+        "min_samples_leaf": [
+          1.0,
+          10.0
+        ],
+        "n_estimators": [
+          100.0,
+          450.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 250,
+        "max_depth": 7,
+        "min_samples_leaf": 10,
+        "max_features": 0.8
+      }
+    },
+    "Random Forest": {
+      "rank": 11,
+      "strategy": "None",
+      "cv_roc_auc": "0.9336 \u00b1 0.0056",
+      "cv_g_mean": "0.8014 \u00b1 0.0139",
+      "test_roc_auc": 0.9327,
+      "test_roc_auc_95ci": "[0.9216, 0.9430]",
+      "accuracy": 0.895,
+      "precision": 0.7976,
+      "recall": 0.6503,
+      "specificity": 0.9577,
+      "f1_score": 0.7165,
+      "g_mean": 0.7892,
+      "tuned_threshold_oof_gmean": 0.2058,
+      "kaggle_auc": 0.93887,
+      "kaggle_private_auc": 0.92472,
+      "submission_file": "Submissions/10_random_forest.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9335,
+      "search_space": {
+        "max_depth": [
+          4.0,
+          23.0
+        ],
+        "max_features": [
+          "0.5",
+          "0.8",
+          "log2",
+          "sqrt"
+        ],
+        "min_samples_leaf": [
+          1.0,
+          10.0
+        ],
+        "min_samples_split": [
+          2.0,
+          20.0
+        ],
+        "n_estimators": [
+          100.0,
+          500.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 350,
+        "max_depth": 8,
+        "min_samples_split": 18,
+        "min_samples_leaf": 4,
+        "max_features": 0.5
+      }
+    },
+    "Balanced Bagging": {
+      "rank": 12,
+      "strategy": "Algorithmic (balanced bagging)",
+      "cv_roc_auc": "0.9317 \u00b1 0.0061",
+      "cv_g_mean": "0.8542 \u00b1 0.0069",
+      "test_roc_auc": 0.9319,
+      "test_roc_auc_95ci": "[0.9208, 0.9426]",
+      "accuracy": 0.8593,
+      "precision": 0.61,
+      "recall": 0.8611,
+      "specificity": 0.8589,
+      "f1_score": 0.7141,
+      "g_mean": 0.86,
+      "tuned_threshold_oof_gmean": 0.4725,
+      "kaggle_auc": 0.93877,
+      "kaggle_private_auc": 0.92383,
+      "submission_file": "Submissions/14_balanced_bagging.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9321,
+      "search_space": {
+        "estimator__max_depth": [
+          4.0,
+          24.0
+        ],
+        "estimator__min_samples_leaf": [
+          4.0,
+          20.0
+        ],
+        "max_samples": [
+          0.5232252063599989,
+          0.975357153204958
+        ],
+        "n_estimators": [
+          10.0,
+          100.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 100,
+        "max_samples": 0.8105936644592666,
+        "estimator__max_depth": 19,
+        "estimator__min_samples_leaf": 18
+      }
+    },
+    "Extra Trees": {
+      "rank": 13,
+      "strategy": "None",
+      "cv_roc_auc": "0.9340 \u00b1 0.0051",
+      "cv_g_mean": "0.7838 \u00b1 0.0120",
+      "test_roc_auc": 0.9329,
+      "test_roc_auc_95ci": "[0.9218, 0.9431]",
+      "accuracy": 0.8923,
+      "precision": 0.8081,
+      "recall": 0.6193,
+      "specificity": 0.9623,
+      "f1_score": 0.7012,
+      "g_mean": 0.772,
+      "tuned_threshold_oof_gmean": 0.2833,
+      "kaggle_auc": 0.93679,
+      "kaggle_private_auc": 0.92325,
+      "submission_file": "Submissions/09_extra_trees.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9338,
+      "search_space": {
+        "max_depth": [
+          5.0,
+          23.0
+        ],
+        "max_features": [
+          "0.5",
+          "0.8",
+          "log2",
+          "sqrt"
+        ],
+        "min_samples_leaf": [
+          2.0,
+          10.0
+        ],
+        "min_samples_split": [
+          2.0,
+          20.0
+        ],
+        "n_estimators": [
+          100.0,
+          500.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 250,
+        "max_depth": 10,
+        "min_samples_split": 3,
+        "min_samples_leaf": 5,
+        "max_features": 0.5
+      }
+    },
+    "MLP": {
+      "rank": 14,
+      "strategy": "None",
+      "cv_roc_auc": "0.9317 \u00b1 0.0052",
+      "cv_g_mean": "0.8078 \u00b1 0.0166",
+      "test_roc_auc": 0.9329,
+      "test_roc_auc_95ci": "[0.9220, 0.9431]",
+      "accuracy": 0.8927,
+      "precision": 0.7627,
+      "recall": 0.6879,
+      "specificity": 0.9451,
+      "f1_score": 0.7234,
+      "g_mean": 0.8063,
+      "tuned_threshold_oof_gmean": 0.1857,
+      "kaggle_auc": 0.93442,
+      "kaggle_private_auc": 0.92155,
+      "submission_file": "Submissions/13_mlp.csv",
+      "optuna_trials": 25,
+      "optuna_best_tuning_cv_auc": 0.9326,
+      "search_space": {
+        "alpha": [
+          1.0763282470470012e-05,
+          0.0978206260512287
+        ],
+        "batch_size": [
+          64,
+          128,
+          256
+        ],
+        "hidden_layer_sizes": [
+          "128",
+          "128-64",
+          "32",
+          "64",
+          "64-32"
+        ],
+        "learning_rate_init": [
+          0.0001163596382927,
+          0.0086152456164504
+        ]
+      },
+      "best_hyperparameters": {
+        "hidden_layer_sizes": "32",
+        "alpha": 0.059458827226071084,
+        "learning_rate_init": 0.00596041504583869,
+        "batch_size": 128
+      }
+    },
+    "Easy Ensemble": {
+      "rank": 15,
+      "strategy": "Algorithmic (balanced bagging of AdaBoost)",
+      "cv_roc_auc": "0.9255 \u00b1 0.0050",
+      "cv_g_mean": "0.8454 \u00b1 0.0080",
+      "test_roc_auc": 0.9241,
+      "test_roc_auc_95ci": "[0.9127, 0.9351]",
+      "accuracy": 0.854,
+      "precision": 0.6053,
+      "recall": 0.817,
+      "specificity": 0.8635,
+      "f1_score": 0.6954,
+      "g_mean": 0.8399,
+      "tuned_threshold_oof_gmean": 0.4897,
+      "kaggle_auc": 0.92985,
+      "kaggle_private_auc": 0.91388,
+      "submission_file": "Submissions/15_easy_ensemble.csv",
+      "optuna_trials": 10,
+      "optuna_best_tuning_cv_auc": 0.9255,
+      "search_space": {
+        "n_estimators": [
+          10.0,
+          60.0
+        ]
+      },
+      "best_hyperparameters": {
+        "n_estimators": 60
+      }
+    },
+    "KNN": {
+      "rank": 16,
+      "strategy": "None",
+      "cv_roc_auc": "0.9193 \u00b1 0.0065",
+      "cv_g_mean": "0.7240 \u00b1 0.0145",
+      "test_roc_auc": 0.9245,
+      "test_roc_auc_95ci": "[0.9126, 0.9355]",
+      "accuracy": 0.8783,
+      "precision": 0.8034,
+      "recall": 0.5343,
+      "specificity": 0.9665,
+      "f1_score": 0.6418,
+      "g_mean": 0.7186,
+      "tuned_threshold_oof_gmean": 0.2026,
+      "kaggle_auc": 0.92681,
+      "kaggle_private_auc": 0.91372,
+      "submission_file": "Submissions/17_knn.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.9192,
+      "search_space": {
+        "n_neighbors": [
+          5.0,
+          199.0
+        ],
+        "p": [
+          1,
+          2
+        ],
+        "weights": [
+          "distance",
+          "uniform"
+        ]
+      },
+      "best_hyperparameters": {
+        "n_neighbors": 75,
+        "weights": "distance",
+        "p": 1
+      }
+    },
+    "SVM (RBF)": {
+      "rank": 17,
+      "strategy": "None",
+      "cv_roc_auc": "0.9225 \u00b1 0.0054",
+      "cv_g_mean": "0.7690 \u00b1 0.0120",
+      "test_roc_auc": 0.9201,
+      "test_roc_auc_95ci": "[0.9076, 0.9331]",
+      "accuracy": 0.8857,
+      "precision": 0.7969,
+      "recall": 0.5899,
+      "specificity": 0.9615,
+      "f1_score": 0.6779,
+      "g_mean": 0.7531,
+      "tuned_threshold_oof_gmean": -0.8611,
+      "kaggle_auc": 0.92051,
+      "kaggle_private_auc": 0.9089,
+      "submission_file": "Submissions/16_svm_rbf.csv",
+      "optuna_trials": 25,
+      "optuna_best_tuning_cv_auc": 0.9226,
+      "search_space": {
+        "C": [
+          0.115279871282324,
+          96.01239838541392
+        ],
+        "gamma": [
+          0.0010178545127248,
+          0.9121591793918494
+        ]
+      },
+      "best_hyperparameters": {
+        "C": 32.515357160304525,
+        "gamma": 0.002509986843692654
+      }
+    },
+    "Logistic Regression (Baseline)": {
+      "rank": 18,
+      "strategy": "None",
+      "cv_roc_auc": "0.8860 \u00b1 0.0075",
+      "cv_g_mean": "0.7261 \u00b1 0.0135",
+      "test_roc_auc": 0.8826,
+      "test_roc_auc_95ci": "[0.8663, 0.8988]",
+      "accuracy": 0.867,
+      "precision": 0.7383,
+      "recall": 0.5392,
+      "specificity": 0.951,
+      "f1_score": 0.6232,
+      "g_mean": 0.7161,
+      "tuned_threshold_oof_gmean": 0.2179,
+      "kaggle_auc": 0.89368,
+      "kaggle_private_auc": 0.87772,
+      "submission_file": "Submissions/18_logistic_regression_baseline.csv",
+      "best_hyperparameters": "scikit-learn defaults (max_iter=5000)"
+    },
+    "Logistic Regression + ADASYN": {
+      "rank": 19,
+      "strategy": "Resampling (ADASYN)",
+      "cv_roc_auc": "0.8860 \u00b1 0.0078",
+      "cv_g_mean": "0.8164 \u00b1 0.0085",
+      "test_roc_auc": 0.8829,
+      "test_roc_auc_95ci": "[0.8667, 0.8991]",
+      "accuracy": 0.8243,
+      "precision": 0.5472,
+      "recall": 0.8056,
+      "specificity": 0.8291,
+      "f1_score": 0.6517,
+      "g_mean": 0.8173,
+      "tuned_threshold_oof_gmean": 0.4733,
+      "kaggle_auc": 0.89286,
+      "kaggle_private_auc": 0.87835,
+      "submission_file": "Submissions/19_logistic_regression_adasyn.csv",
+      "optuna_trials": 40,
+      "optuna_best_tuning_cv_auc": 0.8864,
+      "search_space": {
+        "C": [
+          0.0019517224641449,
+          88.93165664909492
+        ],
+        "sampler__n_neighbors": [
+          3.0,
+          15.0
+        ],
+        "sampler__sampling_strategy": [
+          0.5102922471479012,
+          0.975357153204958
+        ]
+      },
+      "best_hyperparameters": {
+        "C": 3.779963249779337,
+        "sampler__sampling_strategy": 0.803337805198223,
+        "sampler__n_neighbors": 15
       }
     }
   }
