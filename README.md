@@ -94,7 +94,6 @@ pip install -r requirements.txt
 Run the notebooks in order: `EDA` → `tpot_test` → `train_test_models` → `imbalance_and_ablation`.
 
 - `train_test_models` loads the cached Optuna results by default. Set `RUN_OPTUNA_SEARCH = True` to re-run the search.
-- The Kaggle submissions are written to `Submissions/`, which git does not track.
 - All randomness is seeded with 42.
 
 ## Authors
